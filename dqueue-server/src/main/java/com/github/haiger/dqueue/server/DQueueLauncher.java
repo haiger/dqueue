@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.haiger.dqueue.common.util.redis.RedisUtil;
+import com.github.haiger.dqueue.server.processer.ProcesserFactory;
 import com.github.haiger.dqueue.server.remoting.Server;
 import com.github.haiger.dqueue.server.remoting.http.HttpServer;
 
@@ -21,7 +22,10 @@ public class DQueueLauncher {
             
             RedisUtil.getInstance();
             
-            Server httpServer = new HttpServer(config.getHttpPort());
+            ProcesserFactory processerFactory =  new ProcesserFactory();
+            processerFactory.init();
+            
+            Server httpServer = new HttpServer(config.getHttpPort(), processerFactory);
             
             Runtime.getRuntime().addShutdownHook(new Thread() {
                 @Override

@@ -3,6 +3,7 @@ package com.github.haiger.dqueue.server.remoting.http;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.haiger.dqueue.server.processer.ProcesserFactory;
 import com.github.haiger.dqueue.server.remoting.Server;
 
 import io.netty.bootstrap.ServerBootstrap;
@@ -24,11 +25,13 @@ import io.netty.handler.codec.http.HttpResponseEncoder;
  */
 public class HttpServer implements Server {
     private static final Logger log = LoggerFactory.getLogger(HttpServer.class);
+    private ProcesserFactory processerFactory;
     private int port;
     private EventLoopGroup boss;
     private EventLoopGroup work;
     
-    public HttpServer(int port) {
+    public HttpServer(int port, ProcesserFactory processerFactory) {
+        this.processerFactory = processerFactory;
         this.port = port;
         boss = new NioEventLoopGroup();
         work = new NioEventLoopGroup();
@@ -47,7 +50,7 @@ public class HttpServer implements Server {
                     p.addLast(new HttpResponseEncoder());
                     p.addLast(new HttpRequestDecoder());
                     p.addLast(new HttpObjectAggregator(65536));
-                    p.addLast(new HttpHandler());
+                    p.addLast(new HttpHandler(processerFactory));
                 }
             });
             boot.option(ChannelOption.SO_BACKLOG, 1024);

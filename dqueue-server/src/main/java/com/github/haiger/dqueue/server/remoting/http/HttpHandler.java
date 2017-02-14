@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSON;
 import com.github.haiger.dqueue.common.protocol.RequestCode;
 import com.github.haiger.dqueue.common.protocol.codec.JsonCodec;
+import com.github.haiger.dqueue.server.processer.ProcesserFactory;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -41,9 +42,11 @@ import io.netty.util.CharsetUtil;
 public class HttpHandler extends ChannelInboundHandlerAdapter {
     private static final Logger log = LoggerFactory.getLogger(HttpHandler.class);
     private DefaultHttpDataFactory httpDataFactory;
+    private ProcesserFactory processerFactory;
     
-    public HttpHandler() {
+    public HttpHandler(ProcesserFactory processerFactory) {
         httpDataFactory = new DefaultHttpDataFactory(false);
+        this.processerFactory = processerFactory;
     }
     
     @Override
@@ -59,7 +62,7 @@ public class HttpHandler extends ChannelInboundHandlerAdapter {
             Map<String, String> params = parsePostParams(msg);
             switch (RequestCode.valueOf(code)) {
             case PUB:
-                
+                processerFactory.getProcesser(RequestCode.PUB).processer(params);
                 break;
             case MPUB:
                 
