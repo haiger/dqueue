@@ -10,17 +10,47 @@ public class Request implements Serializable{
     private static final long serialVersionUID = -8201271544089897348L;
     
     private short code;
-    private short codecType;// 序列化类型：json、binary...
     //private short version;// 协议版本
     private int id;
     private long timeout;
-    private byte[] body;
+    private Message message;
     
-    public Request(short code, short codecType, int id, long timeout, byte[] body) {
+    public Request(short code, int id, long timeout, Message message) {
         this.code = code;
-        this.codecType = codecType;
         this.id = id;
         this.timeout = timeout;
-        this.body = body;
+        this.message = message;
+    }
+
+    public short getCode() {
+        return code;
+    }
+
+    public void setCode(short code) {
+        this.code = code;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public long getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(long timeout) {
+        this.timeout = timeout;
+    }
+
+    public Message getMessage() {
+        return message;
+    }
+
+    public void setMessage(Message message) {
+        this.message = message;
     }
 }

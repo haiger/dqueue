@@ -7,7 +7,8 @@ package com.github.haiger.dqueue.server;
 public class DQueueLauncher {
     
     public static void main(String[] args) {
-        
+        DQueueConfig config = new DQueueConfig();
+        config.init();
     }
 
 }
