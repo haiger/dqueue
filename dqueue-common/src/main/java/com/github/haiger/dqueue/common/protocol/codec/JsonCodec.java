@@ -3,6 +3,7 @@ package com.github.haiger.dqueue.common.protocol.codec;
 import com.alibaba.fastjson.JSON;
 import com.github.haiger.dqueue.common.protocol.Request;
 import com.github.haiger.dqueue.common.protocol.Response;
+import com.github.haiger.dqueue.common.protocol.ResponseType;
 
 /**
  * @author haiger
@@ -18,6 +19,14 @@ public class JsonCodec {
     }
     
     public static String encodeResponse(Response response) {
+        return JSON.toJSONString(response);
+    }
+    
+    public static String encodeErrorResponse(String errorInfo) {
+        Response response = new Response();
+        response.setType(ResponseType.ERROR.getCode());
+        response.setSuccess(false);
+        response.setErrorInfo(errorInfo);
         return JSON.toJSONString(response);
     }
     
