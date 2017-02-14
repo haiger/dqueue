@@ -8,23 +8,23 @@ import java.util.Map;
  * @since 2017年1月7日 上午12:41:18
  */
 public enum ResponseType {
-    NORMAL(0), ERROR(1), HEARTBEAT(2), MESSAGE(3),;
-    private static Map<Integer, ResponseType> mappings;
+    NORMAL((short)0), ERROR((short)1), HEARTBEAT((short)2), MESSAGE((short)3),;
+    private static Map<Short, ResponseType> mappings;
 
     static {
-        mappings = new HashMap<Integer, ResponseType>();
+        mappings = new HashMap<Short, ResponseType>();
         for (ResponseType t : ResponseType.values()) {
             mappings.put(t.getCode(), t);
         }
     }
 
-    private int code;
+    private short code;
 
-    private ResponseType(int code) {
+    private ResponseType(short code) {
         this.code = code;
     }
 
-    public int getCode() {
+    public short getCode() {
         return code;
     }
 

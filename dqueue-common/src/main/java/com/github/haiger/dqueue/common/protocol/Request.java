@@ -9,24 +9,26 @@ import java.io.Serializable;
 public class Request implements Serializable{
     private static final long serialVersionUID = -8201271544089897348L;
     
-    private short code;
+    private String code;
     //private short version;// 协议版本
     private int id;
     private long timeout;
     private Message message;
     
-    public Request(short code, int id, long timeout, Message message) {
+    public Request(){}
+    
+    public Request(String code, int id, long timeout, Message message) {
         this.code = code;
         this.id = id;
         this.timeout = timeout;
         this.message = message;
     }
 
-    public short getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(short code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
