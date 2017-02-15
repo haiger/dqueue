@@ -51,7 +51,7 @@ public class JsonCodecTest {
         message2.setBody("body2");
         
         Response response = new Response();
-        response.setType(ResponseType.MESSAGE.getCode());
+        response.setType(ResponseType.MESSAGE.getType());
         List<Message> messageList = new ArrayList<>(2);
         messageList.add(message1);
         messageList.add(message2);

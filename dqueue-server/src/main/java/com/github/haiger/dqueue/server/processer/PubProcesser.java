@@ -1,7 +1,6 @@
 package com.github.haiger.dqueue.server.processer;
 
-import java.util.Map;
-
+import com.github.haiger.dqueue.common.protocol.Request;
 import com.github.haiger.dqueue.common.protocol.RequestCode;
 import com.github.haiger.dqueue.common.protocol.Response;
 
@@ -13,7 +12,7 @@ import com.github.haiger.dqueue.common.protocol.Response;
 public class PubProcesser implements RequestProcesser {
 
     @Override
-    public Response processer(Map<String, String> params) {
+    public Response processer(Request request) {
         return null;
     }
 

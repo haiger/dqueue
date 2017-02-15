@@ -14,21 +14,21 @@ public enum ResponseType {
     static {
         mappings = new HashMap<Short, ResponseType>();
         for (ResponseType t : ResponseType.values()) {
-            mappings.put(t.getCode(), t);
+            mappings.put(t.getType(), t);
         }
     }
 
-    private short code;
+    private short type;
 
-    private ResponseType(short code) {
-        this.code = code;
+    private ResponseType(short type) {
+        this.type = type;
     }
 
-    public short getCode() {
-        return code;
+    public short getType() {
+        return type;
     }
 
-    public static ResponseType fromCode(int code) {
-        return mappings.get(code);
+    public static ResponseType fromType(int type) {
+        return mappings.get(type);
     }
 }

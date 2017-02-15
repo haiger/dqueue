@@ -1,7 +1,6 @@
 package com.github.haiger.dqueue.server.processer;
 
-import java.util.Map;
-
+import com.github.haiger.dqueue.common.protocol.Request;
 import com.github.haiger.dqueue.common.protocol.Response;
 
 /**
@@ -9,5 +8,5 @@ import com.github.haiger.dqueue.common.protocol.Response;
  * @since 2017年2月14日 下午10:14:56
  */
 public interface RequestProcesser {
-    Response processer(Map<String, String> params);
+    Response processer(Request request);
 }
