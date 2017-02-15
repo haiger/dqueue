@@ -9,6 +9,7 @@ import com.github.haiger.dqueue.server.processer.DelayTimer;
 import com.github.haiger.dqueue.server.processer.ProcesserFactory;
 import com.github.haiger.dqueue.server.remoting.Server;
 import com.github.haiger.dqueue.server.remoting.http.HttpServer;
+import com.github.haiger.dqueue.server.store.StoreManager;
 
 /**
  * @author haiger
@@ -21,6 +22,8 @@ public class DQueueLauncher {
         try {
             DQueueConfig config = new DQueueConfig();
             config.init();
+            
+            StoreManager.getInstance().setStoreType(config.getStoreType());;
             
             RedisUtil.getInstance();
             
