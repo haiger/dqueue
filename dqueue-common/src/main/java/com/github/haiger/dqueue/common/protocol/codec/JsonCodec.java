@@ -1,6 +1,7 @@
 package com.github.haiger.dqueue.common.protocol.codec;
 
 import com.alibaba.fastjson.JSON;
+import com.github.haiger.dqueue.common.protocol.Message;
 import com.github.haiger.dqueue.common.protocol.Request;
 import com.github.haiger.dqueue.common.protocol.Response;
 
@@ -23,5 +24,13 @@ public class JsonCodec {
     
     public static Response decodeResponse(String responseStr) {
         return JSON.parseObject(responseStr, Response.class);
+    }
+    
+    public static String encodeMessage(Message message) {
+        return JSON.toJSONString(message);
+    }
+    
+    public static Message decodeMessage(String messageStr) {
+        return JSON.parseObject(messageStr, Message.class);
     }
 }

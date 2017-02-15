@@ -1,4 +1,4 @@
-package com.github.haiger.dqueue.server.processer;
+package com.github.haiger.dqueue.server.store.redis;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.github.haiger.dqueue.common.util.NamedThreadFactory;
 import com.github.haiger.dqueue.common.util.redis.RedisLock;
 import com.github.haiger.dqueue.server.DQueueConstant;
+import com.github.haiger.dqueue.server.store.StoreManager;
 
 /**
  * @author haiger
@@ -71,7 +72,7 @@ public class DelayTimer {
                         Thread.sleep(10);
                         continue;
                     }
-                    
+                    StoreManager.getInstance().toReadyQueue(bucketKey);
                 } catch (Exception e) {
                     log.error("delayTask while run goes wrong at:{}", e);
                 } finally {

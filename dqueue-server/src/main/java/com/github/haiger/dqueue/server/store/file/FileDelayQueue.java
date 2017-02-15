@@ -8,4 +8,14 @@ import com.github.haiger.dqueue.server.store.DelayQueue;
  */
 public class FileDelayQueue implements DelayQueue {
 
+    @Override
+    public void save(String bucketKey, String topic, String messageId, int delayAt) {
+        
+    }
+
+    @Override
+    public void toReady(String bucketKey) {
+        
+    }
+
 }

@@ -20,4 +20,6 @@ public class DQueueConstant {
     
     public static final String REDIS_LOCK_KEY_SUFFIX = "_lock";
     public static final long DEFAULT_LOCK_TIME = 10*1000;
+    
+    public static final int DEFAULT_REDIS_KEY_EXPIRE = 2592000;// 15*24*60*60;
 }
