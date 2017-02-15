@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.haiger.dqueue.common.util.redis.RedisUtil;
+import com.github.haiger.dqueue.server.processer.DelayBucket;
+import com.github.haiger.dqueue.server.processer.DelayTimer;
 import com.github.haiger.dqueue.server.processer.ProcesserFactory;
 import com.github.haiger.dqueue.server.remoting.Server;
 import com.github.haiger.dqueue.server.remoting.http.HttpServer;
@@ -22,6 +24,12 @@ public class DQueueLauncher {
             
             RedisUtil.getInstance();
             
+            DelayBucket bucket = new DelayBucket(config.getBucketCount());
+            bucket.init();
+            
+            DelayTimer timer = new DelayTimer(bucket);
+            timer.start();
+            
             ProcesserFactory processerFactory =  new ProcesserFactory();
             processerFactory.init();
             
@@ -31,6 +39,7 @@ public class DQueueLauncher {
                 @Override
                 public void run() {
                     httpServer.shutdown();
+                    timer.stop();
                 }
             });
             

@@ -44,7 +44,7 @@ public class RedisLock {
         return locked;
     }
 
-    public static void unLock(String lockKey, long expire) {
+    public static void unlock(String lockKey, long expire) {
         Jedis jedis = RedisUtil.getInstance().getJedis();
         try {
             String currentExpireStr = jedis.get(lockKey);

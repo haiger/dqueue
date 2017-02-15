@@ -13,27 +13,23 @@ import org.slf4j.LoggerFactory;
 public class DQueueConfig {
     private static final Logger log = LoggerFactory.getLogger(DQueueConfig.class);
     
-    public static final String REDIS_STORE_TYPE = "redis";
-    public static final String FILE_STORE_TYPE = "file";
-    
-    private static final String DEFAULT_HTTP_PORT = "8001";
-    private static final String DEFAULT_TCP_PORT = "8000";
-    
     private String storeType;
     private int httpPort;
     private int tcpPort;
+    private int bucketCount;
     
     public void init() {
         Properties prop = new Properties();
         try {
             prop.load(DQueueConfig.class.getResourceAsStream("/dqueue.properties"));
-            
-            this.storeType = prop.getProperty("storeType", REDIS_STORE_TYPE);
-            this.httpPort = Integer.valueOf(prop.getProperty("httpPort", DEFAULT_HTTP_PORT));
-            this.tcpPort = Integer.valueOf(prop.getProperty("tcp", DEFAULT_TCP_PORT));
         } catch (IOException e) {
             log.error("读取dqueue配置文件异常:", e);
         }
+        
+        this.storeType = prop.getProperty("storeType", DQueueConstant.REDIS_STORE_TYPE);
+        this.httpPort = Integer.valueOf(prop.getProperty("httpPort", DQueueConstant.DEFAULT_HTTP_PORT));
+        this.tcpPort = Integer.valueOf(prop.getProperty("tcp", DQueueConstant.DEFAULT_TCP_PORT));
+        this.bucketCount = Integer.valueOf(prop.getProperty("bucketCount", DQueueConstant.DEFAULT_BUCKET_COUNT+""));
     }
 
     public String getStoreType() {
@@ -58,5 +54,13 @@ public class DQueueConfig {
 
     public void setTcpPort(int tcpPort) {
         this.tcpPort = tcpPort;
+    }
+
+    public int getBucketCount() {
+        return bucketCount;
+    }
+
+    public void setBucketCount(int bucketCount) {
+        this.bucketCount = bucketCount;
     }
 }
