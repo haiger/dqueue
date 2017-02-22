@@ -14,10 +14,10 @@ import redis.clients.jedis.Jedis;
 public class RedisReadyQueue implements ReadyQueue {
 
     @Override
-    public boolean push(String topic, String messageId) {
+    public boolean push(String topic, String... messageIds) {
         Jedis jedis = RedisUtil.getInstance().getJedis();
         try {
-            long res = jedis.rpush(topic, messageId);
+            long res = jedis.rpush(topic, messageIds);
             return res > 0 ? true : false;
         } finally {
             RedisUtil.getInstance().releaseJedis(jedis);

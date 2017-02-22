@@ -72,7 +72,7 @@ public class DelayTimer {
                         Thread.sleep(10);
                         continue;
                     }
-                    StoreManager.getInstance().toReadyQueue(bucketKey);
+                    StoreManager.getInstance().toReadyQueue(bucketKey, DQueueConstant.DEFAULT_PAGE_SIZE);
                 } catch (Exception e) {
                     log.error("delayTask while run goes wrong at:{}", e);
                 } finally {

@@ -1,5 +1,7 @@
 package com.github.haiger.dqueue.server.store.redis;
 
+import java.util.List;
+
 import com.github.haiger.dqueue.common.util.redis.RedisUtil;
 import com.github.haiger.dqueue.server.store.DelayQueue;
 
@@ -22,8 +24,12 @@ public class RedisDelayQueue implements DelayQueue {
     }
 
     @Override
-    public void toReady(String bucketKey) {
-        
+    public List<String> findReadyByPage(String bucketKey, int pageSize) {
+        return null;
     }
 
+    @Override
+    public void delete(String topicMessageId, String... messageIds) {
+        
+    }
 }

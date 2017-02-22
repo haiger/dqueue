@@ -11,7 +11,7 @@ import com.github.haiger.dqueue.server.store.ReadyQueue;
 public class FileReadyQueue implements ReadyQueue {
 
     @Override
-    public boolean push(String topic, String messageId) {
+    public boolean push(String topic, String... messageIds) {
         return false;
     }
 

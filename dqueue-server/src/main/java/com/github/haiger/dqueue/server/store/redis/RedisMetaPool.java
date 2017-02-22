@@ -18,7 +18,7 @@ public class RedisMetaPool implements MetaPool {
     public void save(Message message) {
         Jedis jedis = RedisUtil.getInstance().getJedis();
         try {
-            jedis.setex(DQueueConstant.META_POOL_KEY_PREFIX + message.getId(), 
+            jedis.setex(KeyGenerator.metaKey(message), 
                     DQueueConstant.DEFAULT_REDIS_KEY_EXPIRE,
                     JsonCodec.encodeMessage(message));
         } finally {

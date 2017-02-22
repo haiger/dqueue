@@ -1,5 +1,7 @@
 package com.github.haiger.dqueue.server.store.file;
 
+import java.util.List;
+
 import com.github.haiger.dqueue.server.store.DelayQueue;
 
 /**
@@ -10,11 +12,15 @@ public class FileDelayQueue implements DelayQueue {
 
     @Override
     public void save(String bucketKey, String topic, String messageId, int delayAt) {
-        
     }
 
     @Override
-    public void toReady(String bucketKey) {
+    public List<String> findReadyByPage(String bucketKey, int pageSize) {
+        return null;
+    }
+
+    @Override
+    public void delete(String topicMessageId, String... messageIds) {
         
     }
 

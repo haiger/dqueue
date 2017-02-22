@@ -7,7 +7,7 @@ import java.util.List;
  * @since 2017年1月5日 上午9:16:58
  */
 public interface ReadyQueue {
-    boolean push(String topic, String messageId);
+    boolean push(String topic, String... messageIds);
     String popByTopic(String topic);
     List<String> mpopByTopic(String topic);
 }

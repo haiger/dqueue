@@ -1,5 +1,10 @@
 package com.github.haiger.dqueue.server.store;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,9 +74,32 @@ public class StoreManager {
         return response;
     }
     
-    public void toReadyQueue(String bucketKey) {
+    public void toReadyQueue(String bucketKey, int pageSize) {
         DelayQueue delayQueue = getDelayQueue();
-        delayQueue.toReady(bucketKey);
+        ReadyQueue readyQueue = getReadyQueue();
+        List<String> topicMessageList = delayQueue.findReadyByPage(bucketKey, pageSize);
+        Map<String, List<String>> readyMap = new HashMap<>(128);
+        for (String topicMessage : topicMessageList) {
+            String[] tuple = topicMessage.split("_");
+            String topic = tuple[0];
+            String messageId = tuple[1];
+            List<String> messageIds = new ArrayList<>(1);
+            messageIds.add(messageId);
+            
+            List<String> value = readyMap.putIfAbsent(topic, messageIds);
+            if (value != null) {
+                value.addAll(messageIds);
+                readyMap.put(topic, value);
+            }
+        }
+        
+        for (Map.Entry<String, List<String>> entry : readyMap.entrySet()) {
+            String topic = entry.getKey();
+            List<String> messageIds = entry.getValue();
+            String[] messageIdArr = (String[])messageIds.toArray();
+            readyQueue.push(topic, messageIdArr);
+            delayQueue.delete(topic, messageIdArr);
+        }
     }
     
     private int getCurrentSecond() {
