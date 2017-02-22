@@ -11,4 +11,8 @@ public class KeyGenerator {
     public static String metaKey(Message message) {
         return DQueueConstant.META_POOL_KEY_PREFIX + message.getTopic() + "_" + message.getId();
     }
+    
+    public static String metaKey(String topic, String messageId) {
+        return DQueueConstant.META_POOL_KEY_PREFIX + topic + "_" + messageId;
+    }
 }

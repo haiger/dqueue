@@ -5,13 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.github.haiger.dqueue.common.protocol.Message;
 import com.github.haiger.dqueue.common.protocol.Response;
 import com.github.haiger.dqueue.common.protocol.ResponseType;
-import com.github.haiger.dqueue.common.protocol.codec.JsonCodec;
 import com.github.haiger.dqueue.server.DQueueConstant;
 import com.github.haiger.dqueue.server.store.file.FileDelayQueue;
 import com.github.haiger.dqueue.server.store.file.FileMetaPool;
@@ -26,8 +22,6 @@ import com.github.haiger.dqueue.server.store.redis.RedisReadyQueue;
  * @since 2017年2月15日 下午5:14:29
  */
 public class StoreManager {
-    private static final Logger log = LoggerFactory.getLogger(StoreManager.class);
-    
     private String storeType;
     private DelayBucket bucket;
     
@@ -41,7 +35,7 @@ public class StoreManager {
         static final StoreManager instance = new StoreManager();
     }
     
-    public Response saveMeta(Message message) {
+    public Response saveMeta(Message message) throws Throwable {
         int currentSecond = getCurrentSecond();
         int delayAt = currentSecond + message.getDelay();
         message.setDelay(delayAt);
@@ -50,31 +44,23 @@ public class StoreManager {
         MetaPool metaPool = getMetaPool();
         ReadyQueue readyQueue = getReadyQueue();
         DelayQueue delayQueue = getDelayQueue();
-        try {
-            metaPool.save(message);
-            
-            if (delayAt <= currentSecond) {
-                readyQueue.push(message.getTopic(), message.getId());
-            } else {
-                delayQueue.save(bucket.nextBucket(), 
-                        message.getTopic(), 
-                        message.getId(), 
-                        delayAt);
-            }
-            
-            response.setType(ResponseType.NORMAL.getType());
-            response.setSuccess(true);
-        } catch (Exception e) {
-            response.setType(ResponseType.ERROR.getType());
-            response.setSuccess(false);
-            response.setErrorInfo(e.getMessage());
-            log.error("saveMeta({}) goes wrong at:{}", 
-                    JsonCodec.encodeMessage(message), e.getMessage());
+        metaPool.save(message);
+        
+        if (delayAt <= currentSecond) {
+            readyQueue.push(message.getTopic(), message.getId());
+        } else {
+            delayQueue.save(bucket.nextBucket(), 
+                    message.getTopic(), 
+                    message.getId(), 
+                    delayAt);
         }
+        
+        response.setType(ResponseType.NORMAL.getType());
+        response.setSuccess(true);
         return response;
     }
     
-    public void toReadyQueue(String bucketKey, int pageSize) {
+    public void toReadyQueue(String bucketKey, int pageSize) throws Throwable {
         DelayQueue delayQueue = getDelayQueue();
         ReadyQueue readyQueue = getReadyQueue();
         List<String> topicMessageList = delayQueue.findReadyByPage(bucketKey, pageSize);

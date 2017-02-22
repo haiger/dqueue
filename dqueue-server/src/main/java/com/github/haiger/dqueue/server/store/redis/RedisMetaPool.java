@@ -27,13 +27,26 @@ public class RedisMetaPool implements MetaPool {
     }
 
     @Override
-    public Message getMetaById(String messageId) {
-        return null;
+    public Message getMetaByTopicAndId(String topic, String messageId) {
+        Message message = null;
+        Jedis jedis = RedisUtil.getInstance().getJedis();
+        try {
+            String messageStr = jedis.get(KeyGenerator.metaKey(topic, messageId));
+            message = JsonCodec.decodeMessage(messageStr);
+        } finally {
+            RedisUtil.getInstance().releaseJedis(jedis);
+        }
+        return message;
     }
 
     @Override
-    public void deleteById(String messageId) {
-        
+    public void deleteByTopicAndId(String topic, String messageId) {
+        Jedis jedis = RedisUtil.getInstance().getJedis();
+        try {
+            jedis.del(KeyGenerator.metaKey(topic, messageId));
+        } finally {
+            RedisUtil.getInstance().releaseJedis(jedis);
+        }
     }
 
 }

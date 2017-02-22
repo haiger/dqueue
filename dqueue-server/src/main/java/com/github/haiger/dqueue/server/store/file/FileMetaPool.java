@@ -15,12 +15,12 @@ public class FileMetaPool implements MetaPool {
     }
 
     @Override
-    public Message getMetaById(String messageId) {
+    public Message getMetaByTopicAndId(String topic, String messageId) {
         return null;
     }
 
     @Override
-    public void deleteById(String messageId) {
+    public void deleteByTopicAndId(String topic, String messageId) {
         
     }
 }

@@ -35,9 +35,9 @@ public class RedisDelayQueue implements DelayQueue {
             Set<Tuple> tuples = j.zrangeWithScores(bucketKey, 0, pageSize);
             long current = Instant.now().getEpochSecond();
             for (Tuple tuple : tuples) {
-                double score = tuple.getScore();
+                double delayAt = tuple.getScore();
                 String member = tuple.getElement();
-                if (isReady(current, score)) {
+                if (isReady(current, delayAt)) {
                     members.add(member);
                 }
             }

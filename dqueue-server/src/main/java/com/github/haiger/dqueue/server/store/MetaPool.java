@@ -8,6 +8,6 @@ import com.github.haiger.dqueue.common.protocol.Message;
  */
 public interface MetaPool {
     void save(Message message); 
-    Message getMetaById(String messageId);
-    void deleteById(String messageId);
+    Message getMetaByTopicAndId(String topic, String messageId);
+    void deleteByTopicAndId(String topic, String messageId);
 }
