@@ -98,7 +98,7 @@ public class StoreManager {
             List<String> messageIds = entry.getValue();
             String[] messageIdArr = (String[])messageIds.toArray();
             readyQueue.push(topic, messageIdArr);
-            delayQueue.delete(topic, messageIdArr);
+            delayQueue.delete(bucketKey, topic, messageIdArr);
         }
     }
     

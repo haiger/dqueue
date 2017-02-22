@@ -20,7 +20,7 @@ public class FileDelayQueue implements DelayQueue {
     }
 
     @Override
-    public void delete(String topicMessageId, String... messageIds) {
+    public void delete(String bucketKey, String topic, String... messageIds) {
         
     }
 

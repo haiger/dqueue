@@ -9,5 +9,5 @@ import java.util.List;
 public interface DelayQueue {
     void save(String bucketKey, String topic, String messageId, int delayAt);
     List<String> findReadyByPage(String bucketKey, int pageSize);
-    void delete(String topic, String... messageIds);
+    void delete(String bucketKey, String topic, String... messageIds);
 }
